@@ -1,6 +1,6 @@
 const prompt = require(`prompt-sync`)({sigint: true});
-const fs = require(`fs`).promises;
-const path = require('path');
+// const fs = require(`fs`).promises;
+// const path = require('path');
 
 
 function randomNumber(min, max) {
@@ -51,20 +51,7 @@ function fight(location) {
     
     console.log(``);
     if (yourPower > opponentPower) {
-        let walletObj = getWallet(`${name}.json`)
-                            .then(obj => {
-                                console.log("Loaded object:", obj);
-                                console.log("fightMoney is:", obj.fightMoney);
-                            })
-                            .catch(err => console.error("Failed:", err));
-        
-        
-        
-        // await getWallet();
-        console.log(`first walletObj: ${JSON.stringify(walletObj)}`);
         walletObj.fightMoney = walletObj.fightMoney + 50;
-        console.log(`second walletObj: ${walletObj.fightMoney}`);
-        updateWallet(walletObj);
         console.log(`YOU WIN!! Here's your $50,
 now get out of here before the cops come!!`);
 
@@ -109,9 +96,11 @@ function playDice() {
 
         if(yourTotal > opponentTotal) {
             console.log(`You win!! Here's $${wager}`);
+            walletObj.diceMoney = walletObj.diceMoney + Number(wager);
 
         } else if (opponentTotal > yourTotal) {
             console.log(`Ha! Give me my $${wager}`)
+            walletObj.diceMoney = walletObj.diceMoney - Number(wager);
 
         } else {
             console.log(`Tie! Roll again!`);
@@ -170,10 +159,8 @@ function robBank(location) {
             console.log(``);
             console.log(`YOU DID IT!!!!`);
             console.log(``);
-            let formatter = new Intl.NumberFormat('en-US', {
-                    maximumFractionDigits: 0
-                });
             let safeMoney = 1000000*Math.random(0,1);
+            walletObj.robberyMoney = walletObj.robberyMoney + safeMoney
             
             console.log(`There's $${formatter.format(safeMoney)} in there!!`);
             console.log(`Lets get out of here!!!!`);
@@ -206,83 +193,16 @@ function navigate() {
     welcomeTo(location);
 }
 
- async function createWallet() {
-    // console.log(`in createwallet`);
-    // const playerObj = {
-    //     fightMoney: 0, 
-    //     diceMoney: 0, 
-    //     robberyMoney: 0, 
-    //     yourMoney: 100
-    // }
-    
-    // const filePath = `${name}.txt`;
-    // const playerObjStr = JSON.stringify(playerObj, null, 2)
-    // console.log(`playerObjStr: type ${typeof playerObjStr}, value: ${playerObjStr}`);
-
-    // await fs.writeFile(`${name}.json`, JSON.stringify(playerObj, null, 2), 'utf8');
-    // console.log('JSON file written');
-
-    await fs.writeFile('Eric.txt', 'test', 'utf8');
-    console.log(`Done writing`);
-        //.then(() => console.log('wrote it'))
-       // .catch(console.error);
-
-//   const data = await fs.readFile('data.json', 'utf8');
-//   const parsed = JSON.parse(data);
-//   console.log('JSON contents as object:', parsed);
-
-
-
-    
-//     await fs.writeFile(filePath, JSON.stringify(playerObj, null, 2), 'utf8')
-//         .then(() => {
-//           console.log(`File ${filePath} created successfully!`);
-//         })
-//         .catch(err => {
-//         console.error('Error writing file:', err);
-//         });
-}
-
-function getWallet(fileName){
-    console.log(`in Get wallet`)
-    
-    return fs.readFile(fileName, 'utf8')
-    .then(data => JSON.parse(data)) // convert text → object
-    .catch(err => {
-      console.error("Error reading or parsing:", err);
-      throw err;
-    });
-    
-    
-    // fs.readFile(`${name}.json`, 'utf8', (err, data) => {
-    //     if (err) {
-    //         console.error(`I can't find your wallet! `, err);
-    //         return;
-    //     }
-    //     try {
-    //         console.log(`in getwallet try`);
-    //         const obj = JSON.parse(data);
-    //         console.log(obj);
-    //         return obj;
-    //     } catch (err) {
-    //         console.error(`You're wallet seems messed up:`, err);
-    //     }
-    // });
-    // console.log(`leaving getwallet empty`);
-}
-
-function updateWallet(walletObj){
-    fs.writeFile(`${name}.json`, `${walletObj}`, (err) => {
-    if (err) {
-        console.error(`I can't seem to give you money right now: `, err);
-        return;
-    }
-});
-
-}
 
 function bankCheck(){
+    console.log(`See your balances below:`);
+    console.log(`Money from fighting: $${formatter.format(walletObj.fightMoney)}`);
+    console.log(`Money from gambling $${formatter.format(walletObj.diceMoney)}`);
+    console.log(`Money from robing banks: $${formatter.format(walletObj.robberyMoney)}`);
 
+    console.log(``);
+
+    navigate();
 }
 
 function welcomeTo(location) {
@@ -323,8 +243,15 @@ function welcomeTo(location) {
 
 const name = prompt(`Whats your name? `);
 
+let formatter = new Intl.NumberFormat('en-US', {
+                    maximumFractionDigits: 0
+                });
 
-createWallet();
+const walletObj = {
+    fightMoney: 0, 
+    diceMoney: 0, 
+    robberyMoney: 0, 
+}
 
 console.log(``);
 console.log(`Welcome to NYC ${name}!!!`);
