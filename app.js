@@ -207,20 +207,20 @@ function navigate() {
 }
 
  async function createWallet() {
-    console.log(`in createwallet`);
-    const playerObj = {
-        fightMoney: 0, 
-        diceMoney: 0, 
-        robberyMoney: 0, 
-        yourMoney: 100
-    }
+    // console.log(`in createwallet`);
+    // const playerObj = {
+    //     fightMoney: 0, 
+    //     diceMoney: 0, 
+    //     robberyMoney: 0, 
+    //     yourMoney: 100
+    // }
     
-    const filePath = `${name}.txt`;
-    const playerObjStr = JSON.stringify(playerObj, null, 2)
-    console.log(`playerObjStr: type ${typeof playerObjStr}, value: ${playerObjStr}`);
+    // const filePath = `${name}.txt`;
+    // const playerObjStr = JSON.stringify(playerObj, null, 2)
+    // console.log(`playerObjStr: type ${typeof playerObjStr}, value: ${playerObjStr}`);
 
-    await fs.writeFile(`${name}.json`, JSON.stringify(playerObj, null, 2), 'utf8');
-    console.log('JSON file written');
+    // await fs.writeFile(`${name}.json`, JSON.stringify(playerObj, null, 2), 'utf8');
+    // console.log('JSON file written');
 
     await fs.writeFile('Eric.txt', 'test', 'utf8');
     console.log(`Done writing`);
