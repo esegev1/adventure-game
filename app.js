@@ -257,16 +257,3 @@ console.log(``);
 console.log(`Welcome to NYC ${name}!!!`);
 
 navigate();
-
-
-// fs.writeFile(`${name}.json`, `${playerObj}`, (err) => {
-//     if (err) {
-//         console.error(`I can't create you as a user something has gone wrong: `, err);
-//         return;
-//     }
-    
-//     console.log(``);
-//     console.log(`Welcome to NYC ${name}!!!`);
-
-//     navigate();
-// });
